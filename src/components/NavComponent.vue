@@ -1,0 +1,102 @@
+<template>
+    <div>
+        <nav class="navbar header-navbar pcoded-header">
+            <div class="navbar-wrapper">
+                <div class="navbar-logo">
+                    <a class="mobile-menu" id="mobile-collapse" href="#">
+                        <i class="feather icon-menu"></i>
+                    </a>
+                    <router-link tag="a" to="/admin">
+                        <h6 class="font-weight-bolder text-lowercase my-2" style="font-size: 1.5em">
+                            <span class="text-capitalize">En-Hakkoré</span>
+                        </h6>
+                    </router-link>
+                    <a class="mobile-options">
+                        <i class="feather icon-more-horizontal"></i>
+                    </a>
+                </div>
+                <div class="navbar-container">
+                    <ul class="nav-left">
+                        <li class="header-search">
+                            <div class="main-search morphsearch-search">
+                                <div class="input-group">
+                                        <span class="input-group-addon search-close"><i
+                                                class="feather icon-x"></i></span>
+                                    <input type="text" class="form-control">
+                                    <span class="input-group-addon search-btn"><i
+                                            class="feather icon-search"></i></span>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <a href="#" onclick="javascript:toggleFullScreen()">
+                                <i class="feather icon-maximize full-screen"></i>
+                            </a>
+                        </li>
+                    </ul>
+                    <ul class="nav-right">
+                        <li class="user-profile header-notification">
+                            <div class="dropdown-primary dropdown">
+                                <div class="dropdown-toggle" data-toggle="dropdown">
+                                    <img src="assets/images/avatar.png" class="img-circle img-fluid"
+                                         alt="User-Profile-Image">
+                                    <span class="font-weight-bold">{{token}}</span>
+                                    <i class="feather icon-chevron-down"></i>
+                                </div>
+                                <ul class="show-notification profile-notification dropdown-menu"
+                                    data-dropdown-in="fadeIn" data-dropdown-out="fadeOut">
+                                    <li>
+                                        <a href="javascript:void(0)" @click="loggedOut">
+                                            <i class="feather icon-lock"></i> Lock Screen
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0)" @click="loggedOut">
+                                            <i class="feather icon-log-out"></i> Logout
+                                        </a>
+                                    </li>
+                                </ul>
+
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </div>
+</template>
+
+<script>
+    export default {
+        name: "NavComponent",
+        data(){
+            return{
+                token:localStorage.getItem('aToken')
+            }
+        },
+        methods:{
+            loggedOut(){
+                this.$swal({
+                    buttonsStyling: true,
+                    title: 'Etes vous sûr?',
+                    text: "de vouloir vous deconnectez de En-hakkoré admin ?",
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonText: 'Oui',
+                    cancelButtonText: 'Non',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.value) {
+                        localStorage.setItem('aToken','');
+                        this.$router.go(this.$router.replace({name:'login'}));
+                    }
+                    else return
+                }) 
+            }
+        }
+    }
+</script>
+
+<style scoped>
+
+</style>
